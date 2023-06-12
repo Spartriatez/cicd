@@ -1,0 +1,31 @@
+name: Terraform Deployment
+on:
+    - pull_request
+    - push
+    
+jobs:
+    terraform:
+        name: Deploy Infra
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v3
+              
+            - name: Setup terraform
+              uses: hashicorp/setup-terraform@v2 
+              
+            - name: Terraform fmt
+              run: terraform fmt --check
+              working-directory: ./Terraform
+              
+            - name: Terraform init
+              run: terraform init 
+              working-directory: ./Terraform
+              
+            - name: Terraform validate
+              run: terraform validate
+              working-directory: ./Terraform
+              
+            - name: Terraform plan
+              run: terraform plan 
+              working-directory: ./Terraform
